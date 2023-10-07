@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
-const HabitacionModel = require("../models/Habitacion");
-const UsuarioModel = require("../models/Usuario.JS");
+
 
 const uri = process.env.PORTDB;
 const db = process.env.DB;
