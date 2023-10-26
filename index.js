@@ -1,24 +1,15 @@
-// src/index.js
 import express from 'express';
 import 'dotenv/config';
 import cors from 'cors';
 import morgan from 'morgan';
-
-// Cambia la importación de connectDb para que utilice import en lugar de require
 import connectDb from './src/database/db';
-
-// Importa las rutas de usuarios
 import userRoutes from './src/routes/userRoutes';
+import roomRoutes from './src/routes/roomRoutes'; // Importa las rutas de habitaciones
 
-console.log('Hello World BACK END 46i');
-
-// Crear una instancia de express
 const app = express();
 
-// Configurar el puerto en el que se va a ejecutar el servidor
 app.set('port', process.env.PORT);
 
-// Conectar a la base de datos
 const initApp = async () => {
   try {
     await connectDb();
@@ -36,19 +27,11 @@ const initApp = async () => {
 
 initApp();
 
-// Middlewares
 app.use(express.json());
-
-// Habilita CORS
 app.use(cors());
-
-// Muestra los logs en la consola
 app.use(morgan('dev'));
 
-// Rutas
-app.use('/api/users', userRoutes);
-
+app.use('/api/users', userRoutes); // Rutas de usuarios
+app.use('/api/rooms', roomRoutes); // Rutas de habitaciones
 
 export default app;
-
-
