@@ -14,7 +14,7 @@ const initApp = async () => {
   try {
     await connectDb();
     app.listen(app.get('port'), () => {
-      console.log(`BackEnd46i listening to PORT: ${app.get('port')}`);
+      console.log(`Backend listening to PORT: ${app.get('port')}`);
     }).on('error', (error) => {
       console.log('ERROR:', error);
       process.exit(1);

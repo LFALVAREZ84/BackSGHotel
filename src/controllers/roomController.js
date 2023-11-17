@@ -19,26 +19,30 @@ exports.addRoom = async (req, res) => {
   try {
     const newRoom = new Room({ name, number, capacity, price, description, images });
     const room = await newRoom.save();
-    res.json(room);
+    res.json({ message: 'Habitación creada correctamente' });
   } catch (error) {
     res.status(400).json({ error: 'No se pudo agregar la habitación' });
   }
 };
 
-// Actualizar una habitación
+// Actualizar una habitación por ID
 exports.updateRoom = async (req, res) => {
   const roomId = req.params.id;
   const { name, number, capacity, price, description, images } = req.body;
 
   try {
-    const room = await Room.findByIdAndUpdate(roomId, {name, number, capacity, price, description, images }, { new: true });
-    res.json(room);
+    const room = await Room.findByIdAndUpdate(
+      roomId,
+      { name, number, capacity, price, description, images },
+      { new: true }
+    );
+    res.json({ message: 'Habitación actualizada correctamente' });
   } catch (error) {
     res.status(400).json({ error: 'No se pudo actualizar la habitación' });
   }
 };
 
-// Eliminar una habitación
+// Eliminar una habitación por ID
 exports.deleteRoom = async (req, res) => {
   const roomId = req.params.id;
 
