@@ -34,3 +34,35 @@ export const createBooking = async (req, res) => {
     res.status(500).json({ error: 'Error interno del servidor al crear reserva' });
   }
 };
+
+export const deleteBooking = async (req, res) => {
+  try {
+    const bookingId = req.params.id;
+
+    const booking = await Booking.findById(bookingId);
+
+    if (!booking) {
+      return res.status(404).json({ error: 'Reserva no encontrada' });
+    }
+
+    const currentDate = new Date();
+    const checkInDate = new Date(booking.checkIn);
+
+    // Verificar si la cancelación se está intentando dos días antes del check-in
+    const timeDifference = checkInDate.getTime() - currentDate.getTime();
+    const daysDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+    if (daysDifference <= 2) {
+      return res.status(400).json({ error: 'No se puede cancelar la reserva dos días antes del check-in' });
+    }
+
+    await Booking.findByIdAndDelete(bookingId);
+
+    await Room.findByIdAndUpdate(booking.roomId, { disponible: true });
+
+    res.json({ message: 'Reserva eliminada correctamente' });
+  } catch (error) {
+    console.error('Error al eliminar reserva:', error);
+    res.status(500).json({ error: 'Error interno del servidor al eliminar reserva' });
+  }
+};
