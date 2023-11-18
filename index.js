@@ -4,7 +4,8 @@ import cors from 'cors';
 import morgan from 'morgan';
 import connectDb from './src/database/db';
 import userRoutes from './src/routes/userRoutes';
-import roomRoutes from './src/routes/roomRoutes'; // Importa las rutas de habitaciones
+import roomRoutes from './src/routes/roomRoutes';
+import bookingRoutes from './src/routes/bookingRoutes'; // Importa las rutas de reservas
 
 const app = express();
 
@@ -33,5 +34,6 @@ app.use(morgan('dev'));
 
 app.use('/api/users', userRoutes); // Rutas de usuarios
 app.use('/api/rooms', roomRoutes); // Rutas de habitaciones
+app.use('/api/bookings', bookingRoutes); // Rutas de reservas
 
 export default app;
