@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 
 const loginUser = async (req, res) => {
   try {
-    const { email, pass } = req.body;
+    const { email, password } = req.body;
 
     // Busca el usuario por correo electrónico
     const user = await User.findOne({ email });
@@ -16,7 +16,7 @@ const loginUser = async (req, res) => {
     }
 
     // Compara contraseñas
-    const match = await bcrypt.compare(pass, user.pass);
+    const match = await bcrypt.compare(password, user.password);
 
     if (!match) {
       return res.status(401).json({ error: 'Contraseña incorrecta' });

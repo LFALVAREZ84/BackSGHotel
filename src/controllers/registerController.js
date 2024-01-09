@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 
 const registerUser = async (req, res) => {
   try {
-    const { name, surname, email, pass, rol } = req.body;
+    const { name, surname, email, password, rol } = req.body;
 
     // Verificar si el usuario ya existe
     const existingUser = await User.findOne({ email });
@@ -13,13 +13,13 @@ const registerUser = async (req, res) => {
     }
 
     // Hash de la contraseña
-    const hashedPassword = await bcrypt.hash(pass, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     const newUser = new User({
       name,
       surname,
       email,
-      pass: hashedPassword,
+      password: hashedPassword,
       rol,
     });
 
