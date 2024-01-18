@@ -2,7 +2,7 @@
 
 import User from '../models/User';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { generateToken } from '../middlewaress/jsw';
 
 const loginUser = async (req, res) => {
   try {
@@ -22,14 +22,15 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ error: 'Contraseña incorrecta' });
     }
 
-    // Token de autenticación
-    const token = jwt.sign({ userId: user._id }, 'secreto', { expiresIn: '1h' });
+    // Token de autenticación con el rol del usuario
+    const token = generateToken(user._id, user.rol);
 
-   
-    // Envía un mensaje de éxito junto con el token
-    res.json({ message: 'Inicio de sesión exitoso', token });
+    console.log('Token generado:', token); // <-- Nuevo console log
+
+    // Envía un mensaje de éxito junto con el token y el rol
+    res.json({ message: 'Inicio de sesión exitoso', token, role: user.rol });
   } catch (error) {
-    console.error('Error al iniciar sesión:', error);
+    console.error('Error al iniciar sesión:', error.message);
     res.status(500).json({ error: 'Error interno del servidor' });
   }
 };
